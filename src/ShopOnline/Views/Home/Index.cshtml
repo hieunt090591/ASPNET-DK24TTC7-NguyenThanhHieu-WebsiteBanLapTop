@@ -1,0 +1,333 @@
+﻿@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/_LayoutPublicPage.cshtml";
+}
+
+<style>
+    /* Reset & Dark Mode Base - Đổi sang nền xám xanh tối thay vì đen kịt */
+    :root {
+        --bg-dark: #1e293b; 
+        --bg-card: #334155;
+        --text-main: #f8fafc;
+        --text-muted: #cbd5e1;
+        --accent: #00f0ff; 
+        --accent-hover: #00c3d0;
+        --danger: #ff3366;
+    }
+    
+    body, .spad {
+        background-color: var(--bg-dark) !important;
+        color: var(--text-main) !important;
+    }
+
+    /* Override bất kỳ class nền trắng nào từ template cũ */
+    div, section, article, p, h1, h2, h3, h4, h5, h6, span, li, ul, a {
+        background-color: transparent;
+    }
+
+    /* --- FIX LỖI TÀNG HÌNH CHỮ TRONG DANH SÁCH SẢN PHẨM --- */
+    .product__item__text, 
+    .product__item__text h6, 
+    .product__item__text h5, 
+    .product__item__text a, 
+    .product__item__text span,
+    .product__item__text .rating i,
+    .product__price {
+        color: #ffffff !important;
+    }
+
+    /* Hero Section Mới */
+    .tech-hero {
+background: linear-gradient(rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.9)), url('https://laptopaz.vn/media/news/0305_laptopaz-banner-top4-laptop-gaming.jpg') center/cover;        padding: 120px 0;
+        border-bottom: 2px solid var(--accent);
+        text-align: center;
+    }
+    .tech-hero h1 {
+        color: #ffffff;
+        font-size: 3.5rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 0 0 15px var(--accent);
+        margin-bottom: 20px;
+    }
+    .tech-hero p {
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto 30px;
+    }
+    .btn-cyber {
+        display: inline-block;
+        background: transparent;
+        color: var(--accent);
+        border: 2px solid var(--accent);
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+    .btn-cyber:hover {
+        background: var(--accent);
+        color: #000;
+        box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+        text-decoration: none;
+    }
+
+    /* Promo Banners Grid */
+    .tech-promos {
+        padding: 60px 0;
+    }
+    .promo-card {
+        background-color: var(--bg-card);
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 30px;
+        border: 1px solid #475569;
+        transition: transform 0.3s;
+    }
+    .promo-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent);
+    }
+    .promo-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        opacity: 0.7;
+        transition: opacity 0.3s;
+    }
+    .promo-card:hover img {
+        opacity: 1;
+    }
+    .promo-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background: linear-gradient(to top, rgba(30, 41, 59, 1), transparent);
+    }
+    .promo-content h3 {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .promo-content a {
+        color: var(--accent);
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    /* Filter Controls */
+    .tech-filter {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .tech-filter ul {
+        list-style: none;
+        padding: 0;
+        display: inline-flex;
+        gap: 20px;
+    }
+    .tech-filter li {
+        color: var(--text-muted);
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding-bottom: 5px;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s;
+    }
+    .tech-filter li.active, .tech-filter li:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+    }
+
+    /* Deal of the Week */
+    .tech-deal {
+        background-color: var(--bg-card);
+        padding: 60px 0;
+        margin-top: 50px;
+        border-top: 1px solid #475569;
+        border-bottom: 1px solid #475569;
+    }
+    .deal-text h2 {
+        color: #fff;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+    .deal-text span {
+        color: var(--danger);
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    .countdown-timer {
+        display: flex;
+        gap: 20px;
+        margin: 30px 0;
+    }
+    .timer-box {
+        background: var(--bg-dark);
+        border: 1px solid var(--accent);
+        padding: 15px;
+        min-width: 80px;
+        text-align: center;
+        border-radius: 5px;
+    }
+    .timer-box span {
+        display: block;
+        font-size: 2rem;
+        color: #fff;
+        font-weight: bold;
+    }
+    .timer-box p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    /* Headers for sections */
+    .tech-section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .tech-section-title h2 {
+        color: #fff;
+        font-size: 2.2rem;
+        display: inline-block;
+        position: relative;
+    }
+    .tech-section-title h2::after {
+        content: '';
+        position: absolute;
+        width: 50%;
+        height: 3px;
+        background: var(--accent);
+        bottom: -10px;
+        left: 25%;
+    }
+</style>
+
+@if (TempData["msgChangePassword"] != null)
+{
+    <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert" style="border-radius: 0;">
+        <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["msgChangePassword"]
+    </div>
+}    
+@if (TempData["msgChangePasswordFailed"] != null)
+{
+    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert" style="border-radius: 0;">
+        <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        @TempData["msgChangePasswordFailed"]
+    </div>
+}
+@if (TempData["msgEditProfieFailed"] != null)
+{
+    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert" style="border-radius: 0;">
+        <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+        @TempData["msgEditProfieFailed"]
+    </div>
+}
+@if (TempData["msgDeleteOrder"] != null)
+{
+    <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert" style="border-radius: 0;">
+        <button type="button" class="close text-white" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["msgDeleteOrder"]
+    </div>
+}
+
+<section class="tech-hero">
+    <div class="container">
+        <h1>Laptop Thế Hệ Mới 2026</h1>
+        <p>Hệ thống phân phối laptop và thiết bị công nghệ chính hãng. Cam kết mang đến cấu hình mạnh mẽ, trải nghiệm đột phá với chất lượng dịch vụ hậu mãi hàng đầu.</p>
+        <a href="~/Shop/ProductList" class="btn-cyber">Mua Ngay</a>
+    </div>
+</section>
+
+
+
+<section class="product spad">
+    <div class="container">
+        <div class="tech-section-title">
+            <h2>Sản Phẩm Nổi Bật</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tech-filter">
+                    <ul>
+                        <li class="active" data-filter="*">Bán Chạy Nhất</li>
+                        <li data-filter=".new-arrivals">Hàng Mới Về</li>
+                        <li data-filter=".hot-sales">Giảm Giá Hấp Dẫn</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        @Html.Action("ProductHome", "Home")
+    </div>
+</section>
+
+<section class="tech-deal spad">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 offset-lg-1 text-center">
+                <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sale Product" style="max-width: 100%; border-radius: 10px; box-shadow: 0 0 20px rgba(0,240,255,0.2);">
+            </div>
+            <div class="col-lg-6">
+                <div class="deal-text">
+                    <span>Ưu Đãi Của Tuần</span>
+                    <h2>Dell XPS 15 - Màn Hình OLED</h2>
+                    <p style="color: var(--text-muted); margin-top: 15px;">
+                        Siêu phẩm thiết kế tràn viền, vỏ nhôm nguyên khối. Cấu hình đỉnh cao dành cho dân thiết kế và lập trình viên. Trải nghiệm ngay mức giá giảm sâu chưa từng có!
+                    </p>
+                    <div class="countdown-timer" id="countdown">
+                        <div class="timer-box">
+                            <span>03</span>
+                            <p>Ngày</p>
+                        </div>
+                        <div class="timer-box">
+                            <span>12</span>
+                            <p>Giờ</p>
+                        </div>
+                        <div class="timer-box">
+                            <span>45</span>
+                            <p>Phút</p>
+                        </div>
+                        <div class="timer-box">
+                            <span>18</span>
+                            <p>Giây</p>
+                        </div>
+                    </div>
+                    <a href="~/Shop/ProductList" class="btn-cyber">Mua Ngay</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="latest spad">
+    <div class="container">
+        <div class="tech-section-title">
+            <h2>Tin Tức & Review</h2>
+        </div>
+        @Html.Action("BlogHome", "Home")
+        
+        <div class="text-center mt-4">
+            <a href="~/Article/ArticleList" style="color: var(--accent); font-size: 1.1rem; text-decoration: underline;">Xem Tất Cả Bài Viết</a>
+        </div>
+    </div>
+</section>
